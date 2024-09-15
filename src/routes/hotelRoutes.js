@@ -10,4 +10,3 @@ routes.delete('/:cnpj', excluirHotel);
 routes.put('/:id', atualizarHotel);
 
 export default routes;
-
