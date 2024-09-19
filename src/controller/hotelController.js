@@ -1,69 +1,115 @@
 import Hotel from '../models/Hotel.js'
 import database from '../db/index.js'
+import redisClient from '../db/redis.js'
+
+//DELETAR A CHAVE HOTÉIS SEMPRE QUE: ADICIONAR, ATUALIZAR E REMOVER HOTÉIS
 
 const adicionarHotel = async(req, res) => {
     try {
         await database()
         const hotel = await Hotel.create(req.body)
+
+        const cache = await Hotel.find();
+        await redisClient.set('hoteis', JSON.stringify(cache));
+        
         res.status(201).json(hotel)
     } catch (error) {
-        res.status(400).json('Error')
+        res.status(400).json(error);
     }
 }
 
-const listarHoteis = async(req, res) => {
+const listarHoteis = async (req, res) => {
     try {
-        await database()
-        const hoteis = await Hotel.find();
-        res.status(201).json(hoteis);
+        await database();
+
+        const cachedHoteis = await redisClient.get('hoteis');
+
+        if (cachedHoteis) {
+            console.log("REDIS!");
+            
+            return res.status(200).json(JSON.parse(cachedHoteis));
+        } else {
+            const hoteis = await Hotel.find();
+
+            if (hoteis && hoteis.length > 0) {
+                await redisClient.set('hoteis', JSON.stringify(hoteis));
+                console.log('Cache atualizado');
+                console.log("MONGO");
+                
+                return res.status(200).json(hoteis);
+            }
+                
+            return res.status(404).json({ message: 'Nenhum hotel encontrado' });
+        }
+
     } catch (error) {
-        res.status(400).json('Error ao listar hotéis');
+        console.error('Erro ao listar hotéis:', error);
+        return res.status(400).json({ message: 'Erro ao listar hotéis', error: error.message });
     }
 }
 
-const listarHoteisPorCNPJ = async(req, res) => { 
+
+const buscarHotelPorCNPJ = async(req, res) => { 
+        const { cnpj } = req.params;
+        try {
+            await database();
+    
+            const cachedHotel = await redisClient.get(`hotel:${cnpj}`);
+            if (cachedHotel) {
+                return res.status(200).json(JSON.parse(cachedHotel));
+            }
+    
+            const hotel = await Hotel.findOne({ cnpj });
+    
+            if (!hotel) {
+                return res.status(404).json({ message: 'Hotel não encontrado' });
+            }
+    
+            await redisClient.set(`hotel:${cnpj}`, JSON.stringify(hotel));
+    
+            res.status(200).json(hotel);
+        } catch (error) {
+            res.status(400).json({ message: 'Erro ao listar hotel por CNPJ' });
+        }
+}
+
+const excluirHotel = async (req, res) => {
+    const _id = req.params;
     try {
-        await database()
-        const cnpj = req.params.cnpj;
-        const hoteisPorCnpj = await Hotel.findOne({
-            cnpj
-        });
-        res.status(201).json(hoteisPorCnpj);
-    } catch (error) {
-        res.status(400).json('Hotel não existe!');
-    }
-}
+        await database();
 
-const excluirHotel = async(req, res) => {
+        const hotel = await Hotel.findByIdAndDelete(_id);
+
+        if (!hotel) {
+            return res.status(404).json({ message: 'Hotel não encontrado' });
+        }
+
+        const cache = await Hotel.find();
+        await redisClient.set('hoteis', JSON.stringify(cache));
+
+        res.status(200).json({ message: 'Hotel excluído com sucesso' });
+    } catch (error) {
+        res.status(400).json({ message: 'Erro ao excluir hotel' });
+    }
+};
+
+const atualizarHotel = async (req, res) => {
+    const { id } = req.params;
     try {
-        await database()
-        const cnpj = req.params.cnpj
-        
-        const hotelExluir = await Hotel.findOne({cnpj})
+        await database();
 
-        await Hotel.deleteOne({
-            cnpj
-        });
+        const hotel = await Hotel.findByIdAndUpdate(id, req.body, { new: true });
 
-        res.status(201).json('Hotel exluido');
+        if (!hotel) {
+            return res.status(404).json({ message: 'Hotel não encontrado' });
+        }
+
+        await redisClient.set(`hotel:${hotel.cnpj}`, JSON.stringify(hotel));
+
+        res.status(200).json(hotel);
     } catch (error) {
-        res.status(400).json('Não foi possível excluir hotel');
+        res.status(400).json({ message: 'Erro ao atualizar hotel' });
     }
-}
+};
 
-const atualizarHotel = async(req, res) => {
-    const { nome, localizacao } = req.body;
-    try {
-        await database()
-        const id = req.params.id;
-        const hotelAtualizar = await Hotel.findById(id);
-        hotelAtualizar.nome = nome;
-        hotelAtualizar.localizacao = localizacao;
-        await hotelAtualizar.save();
-        res.status(201).json(hotelAtualizar);
-    } catch (error) {
-        res.status(400).json('Não foi possível atualizar o hotel');
-    }
-}
-
-export { adicionarHotel, listarHoteis, listarHoteisPorCNPJ, excluirHotel, atualizarHotel };
+export { adicionarHotel, listarHoteis, buscarHotelPorCNPJ, excluirHotel, atualizarHotel };

@@ -6,4 +6,7 @@ async function databaseStart(url) {
     })
 }
 
+console.log("conectado com mongo");
+
+
 export default databaseStart

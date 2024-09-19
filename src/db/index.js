@@ -1,4 +1,4 @@
-import databaseStart from "./database.js"
+import databaseStart from "./mongo.js"
 import dotenv from 'dotenv'
 
 dotenv.config();
