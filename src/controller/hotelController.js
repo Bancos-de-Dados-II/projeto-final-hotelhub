@@ -92,7 +92,8 @@ const excluirHotel = async (req, res) => {
 };
 
 const atualizarHotel = async (req, res) => {
-    const { id } = req.params;
+    const id  = req.params._id;
+    
     try {
         await database();
 

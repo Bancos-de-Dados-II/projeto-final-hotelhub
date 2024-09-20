@@ -113,7 +113,7 @@ function displayHoteis (hotel) {
         const buttonDelete = document.createElement('button');
         const imgButtonDelete = document.createElement('img');
 
-        linkButtonEdit.href = `./editHotel.html?id=${e.id}`
+        linkButtonEdit.href = `./editHotel.html?_id=${e._id}`
 
         imgButtonEdit.classList.add('IconEditDele');
         imgButtonEdit.id = 'icon-edit-hotel'

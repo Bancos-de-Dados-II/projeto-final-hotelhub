@@ -1,8 +1,8 @@
 let map = L.map('map', {
     center: [-6.887698002563706, -38.56015173326553],
-    zoom: 15,
-    minZoom: 14,
-    maxZoom: 16
+    zoom: 12,
+    minZoom: 6,
+    maxZoom: 18
 });
 
 let houseIcon = L.icon({
@@ -35,9 +35,9 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 const buttonEditSave = document.getElementById('buttonEditSave');
 buttonEditSave.addEventListener('click', () => {
     const params = new URLSearchParams(window.location.search);
-    const id = params.get('id');
+    const _id = params.get('_id');
 
-    if (!id) {
+    if (!_id) {
         console.error('ID do hotel não encontrado na URL.');
         return;
     }
@@ -56,8 +56,10 @@ buttonEditSave.addEventListener('click', () => {
             coordinates
         }
     };
+    console.log(hotel);
+    
 
-    fetch(`http://localhost:3000/hotel/${id}`, {
+    fetch(`http://localhost:3000/hotel/${_id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
