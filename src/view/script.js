@@ -123,7 +123,7 @@ function displayHoteis (hotel) {
         buttonDelete.id = 'icon-delete-hotel'
         imgButtonDelete.src = './icons/delete.png'
 
-        id.textContent = e.id;
+        id.textContent = e._id;
         nome.textContent = e.nome;
         cnpj.textContent = e.cnpj;
         latitude.textContent = e.localizacao.coordinates[1];

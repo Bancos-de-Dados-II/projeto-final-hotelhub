@@ -25,8 +25,6 @@ const listarHoteis = async (req, res) => {
         const cachedHoteis = await redisClient.get('hoteis');
 
         if (cachedHoteis) {
-            console.log("REDIS!");
-            
             return res.status(200).json(JSON.parse(cachedHoteis));
         } else {
             const hoteis = await Hotel.find();
