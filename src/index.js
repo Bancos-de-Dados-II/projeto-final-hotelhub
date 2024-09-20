@@ -5,7 +5,7 @@ import clientRedis from './db/redis.js';
 const app = express();
 
 const corsOptions = {
-    origin: 'http://127.0.0.1:5501',
+    origin: ['http://127.0.0.1:5500', 'http://127.0.0.1:5501'],
     methods: 'GET, HEAD, PUT, PATCH, POST, DELETE',
     allowedHeaders: 'Content-Type,Authorization'
 };

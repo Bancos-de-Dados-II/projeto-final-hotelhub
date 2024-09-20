@@ -1,8 +1,8 @@
 let map = L.map('map', {
     center: [-6.887698002563706, -38.56015173326553],
-    zoom: 15,
-    minZoom: 14,
-    maxZoom: 16
+    zoom: 12,
+    minZoom: 6,
+    maxZoom: 18
 });
 
 let houseIcon = L.icon({
@@ -37,6 +37,9 @@ button.addEventListener('click', () => {
     const lat = marker.getLatLng().lat;
     const lng = marker.getLatLng().lng;
 
+    console.log(lat);
+    
+
     const nome = document.getElementById('nomeHotel').value;
     const cnpj = document.getElementById('cnpj').value;
 
@@ -46,7 +49,7 @@ button.addEventListener('click', () => {
         return;
     }
 
-    const coordinates = [lat, lng];
+    const coordinates = [lng, lat];
     const hotel = {
         nome,
         cnpj,
