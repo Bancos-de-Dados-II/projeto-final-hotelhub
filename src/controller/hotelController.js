@@ -74,7 +74,7 @@ const buscarHotelPorCNPJ = async(req, res) => {
 }
 
 const excluirHotel = async (req, res) => {
-    const _id = req.params;
+    const _id = req.params._id;
     try {
         await database();
 

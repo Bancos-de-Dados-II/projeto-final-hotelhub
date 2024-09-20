@@ -87,7 +87,6 @@ function listarHoteis() {
         });
 }
 
-
 function displayHoteis (hotel) {
     const dados = document.getElementById('dados');
     dados.innerHTML = '';
@@ -135,7 +134,7 @@ function displayHoteis (hotel) {
         
         buttonDelete.appendChild(imgButtonDelete);
 
-        buttonDelete.dataset.id = e.id;
+        buttonDelete.dataset._id = e._id;
 
         tdButtonDelete.appendChild(buttonDelete);
         tdButtonEdit.appendChild(buttonEdit);
@@ -154,8 +153,11 @@ function displayHoteis (hotel) {
 
 document.getElementById('dados').addEventListener('click', (event) => {
     const button = event.target.closest('button');
-    const id = button.dataset.id;
-    fetch(`http://localhost:3000/hotel/${id}`, {
+    console.log(button);
+    const _id = button.dataset._id;
+    console.log(_id);
+    
+    fetch(`http://localhost:3000/hotel/${_id}`, {
         method: 'DELETE'
     }).then(() => {
         listarHoteis();
