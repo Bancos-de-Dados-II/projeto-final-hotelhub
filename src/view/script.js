@@ -42,9 +42,11 @@ button.addEventListener('click', () => {
 
     const nome = document.getElementById('nomeHotel').value;
     const cnpj = document.getElementById('cnpj').value;
+    const tipo = document.getElementById('tipo').value;
+    console.log(tipo);
 
     // Validação básica dos inputs
-    if (!nome || !cnpj) {
+    if (!nome || !cnpj || !tipo) {
         alert('Por favor, preencha todos os campos.');
         return;
     }
@@ -56,7 +58,8 @@ button.addEventListener('click', () => {
         "localizacao": {
             "type": "Point",
             coordinates
-        }
+        },
+        tipo,
     };
 
     fetch('http://localhost:3000/hotel', {
@@ -100,6 +103,8 @@ function displayHoteis (hotel) {
 
         const cnpj = document.createElement('td');
 
+        const tipo = document.createElement('td');
+
         const latitude = document.createElement('td');
 
         const longitude = document.createElement('td');
@@ -126,6 +131,7 @@ function displayHoteis (hotel) {
         id.textContent = e._id;
         nome.textContent = e.nome;
         cnpj.textContent = e.cnpj;
+        tipo.textContent = e.tipo;
         latitude.textContent = e.localizacao.coordinates[1];
         longitude.textContent = e.localizacao.coordinates[0];
 
@@ -142,6 +148,7 @@ function displayHoteis (hotel) {
         tr.appendChild(id);
         tr.appendChild(nome);
         tr.appendChild(cnpj);
+        tr.appendChild(tipo);
         tr.appendChild(latitude);
         tr.appendChild(longitude);
         tr.appendChild(tdButtonEdit);
