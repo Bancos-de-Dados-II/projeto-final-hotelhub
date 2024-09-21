@@ -47,10 +47,10 @@ const listarHoteis = async (req, res) => {
 }
 
 const pesquisarHoteis = async (req, res) => {
-    const {search} = req.query;
+    await database();
+    const search  = req.query.search;
     const hoteis = await Hotel.find({$text: {$search: search}});
     return res.status(200).json(hoteis);
-
 }
 
 
