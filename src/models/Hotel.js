@@ -29,6 +29,7 @@ const HotelSchema = new Schema({
 
 })
 
+HotelSchema.index({ nome: 'text', cnpj: 'text' }, { weights: { nome: 3, cnpj: 2 }, default_language: 'pt' })
 const Hotel = mongoose.model('Hotel', HotelSchema)
 
 export default Hotel

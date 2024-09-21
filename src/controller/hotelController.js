@@ -46,6 +46,13 @@ const listarHoteis = async (req, res) => {
     }
 }
 
+const pesquisarHoteis = async (req, res) => {
+    const {search} = req.query;
+    const hoteis = await Hotel.find({$text: {$search: search}});
+    return res.status(200).json(hoteis);
+
+}
+
 
 const buscarHotelPorCNPJ = async(req, res) => { 
         const { cnpj } = req.params;
@@ -114,4 +121,4 @@ const atualizarHotel = async (req, res) => {
     }
 };
 
-export { adicionarHotel, listarHoteis, buscarHotelPorCNPJ, excluirHotel, atualizarHotel };
+export { adicionarHotel, listarHoteis, buscarHotelPorCNPJ, excluirHotel, atualizarHotel, pesquisarHoteis };
