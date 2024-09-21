@@ -103,7 +103,10 @@ const atualizarHotel = async (req, res) => {
             return res.status(404).json({ message: 'Hotel não encontrado' });
         }
 
-        await redisClient.set(`hotel:${hotel.cnpj}`, JSON.stringify(hotel));
+        const cache = await Hotel.find();
+        await redisClient.set('hoteis', JSON.stringify(cache));
+
+        //await redisClient.set(`hotel:${hotel.cnpj}`, JSON.stringify(hotel));
 
         res.status(200).json(hotel);
     } catch (error) {

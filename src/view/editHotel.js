@@ -46,7 +46,7 @@ buttonEditSave.addEventListener('click', () => {
     const cnpj = document.getElementById('cnpj').value;
     const lat = marker.getLatLng().lat;
     const lng = marker.getLatLng().lng;
-    const coordinates = [lat, lng];
+    const coordinates = [lng, lat];
 
     const hotel = {
         nome,
