@@ -142,7 +142,9 @@ function displayHoteis (hotel) {
 
         buttonDelete.dataset._id = e._id;
 
+        buttonDelete.className = 'buttonDelete'
         tdButtonDelete.appendChild(buttonDelete);
+        buttonEdit.className = 'buttonEdit'
         tdButtonEdit.appendChild(buttonEdit);
 
         tr.appendChild(id);

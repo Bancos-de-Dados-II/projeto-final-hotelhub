@@ -27,6 +27,11 @@ iframe {
     height: 100%;
 }
 
+.navbar-nav {
+    display: flex;
+    flex-direction: row;
+}
+
 #map {
     height: 512px;
     width: 512px;
@@ -130,7 +135,7 @@ iframe {
 .nav-link:hover {
     transition: 300ms;
     font-size: 20px;
-    padding-top: 20px;
+    font-size: 18px;
 }
 
 .input {
@@ -215,10 +220,10 @@ iframe {
 
 
 .tabela-cabecalho {
-    background-color: #5141B8;
+    /* background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%); */
     width: 100%;
     height: 100%;
-    color: white;
+    color:#0D6EFD;
     text-align: left;
 }
 
@@ -244,7 +249,15 @@ iframe {
 }
 
 #icon-edit-hotel img {
-  width: 20px;
+  width: 30px;
+}
+
+.buttonEdit {
+    border: none;
+}
+
+.buttonDelete {
+    border: none;
 }
 
 

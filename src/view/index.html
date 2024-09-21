@@ -20,8 +20,12 @@
     <nav class="navbar navbar-dark bg-primary" id="nav">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="./graph.html">Gráficos<span class="sr-only">(Página atual)</span></a>
+              <a class="nav-link" href="map.html">Mapa<span class="sr-only">(Página atual)</span></a>
             </li>
+
+            <li class="nav-item active">
+                <a class="nav-link" href="graph.html">Gráfico<span class="sr-only">(Página atual)</span></a>
+              </li>
           </ul>
     </nav>
 
@@ -39,7 +43,7 @@
                 <input type="text" class="input" placeholder="Digite o CNPJ" id="cnpj">
                 
                 <label for="tipo">Classificação</label>
-                <input type="text" class="input"  placeholder="Digite o tipo do hotel" id="tipo">
+                <input type="text" class="input" min="1" max="5" placeholder="Digite o tipo do hotel" id="tipo">
                 
 
                 <button type="button" class="btn" id="button">Enviar</button>

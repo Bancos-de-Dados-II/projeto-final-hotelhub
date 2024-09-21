@@ -20,7 +20,7 @@ clientRedis.on('connect', () => {
     console.log('Conectado ao Redis');
 });
 
-const port = 3333;
+const port = 3000;
 
 app.listen(port, () => {
     console.log(`Servidor rodando na porta ${port} 🚀🚀🚀`);
