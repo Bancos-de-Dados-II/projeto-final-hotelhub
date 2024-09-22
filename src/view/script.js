@@ -175,8 +175,9 @@ document.getElementById('dados').addEventListener('click', (event) => {
 
 const buttonSearch = document.getElementById('buttonPesquisar');
 buttonSearch.addEventListener('click', () => {
-    const cnpj = document.getElementById('pesquisar').value;
-    fetch(`http://localhost:3000/hotel/${cnpj}`).then(response => response.json()
+    const nome = document.getElementById('pesquisar').value;
+    console.log(nome);
+    fetch(`http://localhost:3000/search?search=${(nome)}`).then(response => response.json()
     ).then(response => {
         displayHoteis([response]);
     }).catch(error  => {
