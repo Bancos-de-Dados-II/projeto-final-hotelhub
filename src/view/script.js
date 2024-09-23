@@ -176,13 +176,32 @@ document.getElementById('dados').addEventListener('click', (event) => {
 const buttonSearch = document.getElementById('buttonPesquisar');
 buttonSearch.addEventListener('click', () => {
     const nome = document.getElementById('pesquisar').value;
-    console.log(nome);
-    fetch(`http://localhost:3000/search?search=${(nome)}`).then(response => response.json()
-    ).then(response => {
-        displayHoteis([response]);
-    }).catch(error  => {
-        console.log(error);
-    });
+    fetch("http://localhost:3000/search?search=" + nome)
+        .then(response => response.json())
+        .then(data => {
+            if (Array.isArray(data)) {
+                displayHoteis(data);
+            } else {
+                displayHoteis([data]);
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
 });
 
+
 listarHoteis();
+
+// function handleSearch(){
+//     fetch("http://localhost:3000/product-search?search=" + searchText, {
+//       method: "GET",
+//       headers: {
+//         "authorization": `Bearer ${token}`,
+//         "Content-Type": "application/json"
+//       }
+//     })
+//     .then((res) => res.json())
+//     .then((data: []) => {setProducts([...data]); console.log(products)})
+// }
+

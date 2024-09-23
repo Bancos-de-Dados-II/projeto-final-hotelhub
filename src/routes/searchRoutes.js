@@ -1,5 +1,5 @@
 import express from 'express';
-import { pesquisarHoteis } from '../controller/hotelController.js'
+import { pesquisarHoteis } from '../controller/hotelController.js';
 
 const searchRoute = express.Router();
 
