@@ -17,22 +17,21 @@
 </head>
 
 <body class="align-items-center py-4 bg-body-tertiary">
-    <nav class="navbar navbar-dark bg-primary" id="nav">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="map.html">Mapa<span class="sr-only">(Página atual)</span></a>
+    <nav class="navBar">
+        <ul style="list-style: none; padding: 0; margin: 0; display: flex; background-color: transparent;">
+            <li style="margin-right: 20px;">
+                <a href="index.html">Home</a>
             </li>
-
-            <li class="nav-item active">
-                <a class="nav-link" href="graph.html">Gráfico<span class="sr-only">(Página atual)</span></a>
+            <li style="margin-right: 20px;">
+                <a href="map.html">Mapa</a>
             </li>
-
-            <li class="nav-item active"></li>
-                <a class="nav-link" href="HeatMap.html">Mapa de calor<span class="sr-only">(Página atual)</span></a>
+            <li style="margin-right: 20px;">
+                <a href="graph.html">Gráfico</a>
             </li>
-
-              
-          </ul>
+            <li>
+                <a href="HeatMap.html">Mapa de calor</a>
+            </li>
+        </ul>
     </nav>
 
     <main>
@@ -50,7 +49,6 @@
                 
                 <label for="tipo">Classificação</label>
                 <input type="text" class="input" min="1" max="5" placeholder="Digite o tipo do hotel" id="tipo">
-                
 
                 <button type="button" class="btn" id="button">Enviar</button>
             </section>
