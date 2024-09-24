@@ -3,7 +3,10 @@ import express, { Router } from 'express';
 import cors from 'cors';
 import clientRedis from './db/redis.js';
 import searchRoute from './routes/searchRoutes.js';
+import dotenv from 'dotenv'
 const app = express();
+
+dotenv.config();
 
 const corsOptions = {
     origin: ['http://127.0.0.1:5500', 'http://127.0.0.1:5501'],
@@ -22,7 +25,7 @@ clientRedis.on('connect', () => {
     console.log('Conectado ao Redis');
 });
 
-const port = 3000;
+const port = process.env.PORT;
 
 app.listen(port, () => {
     console.log(`Servidor rodando na porta ${port} 🚀🚀🚀`);
