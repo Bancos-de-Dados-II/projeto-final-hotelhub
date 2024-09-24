@@ -127,7 +127,7 @@ iframe {
     justify-content: center;
     align-items: center;
     flex-direction: row;
-    gap: 40px;
+    gap: 20px;
 }
 
 .logo {
@@ -141,10 +141,14 @@ iframe {
     height: 100px;
 }
 
+.logo:hover {
+    width: 120px;
+}
+
 .form {
     display: flex;
     flex-direction: column;
-    margin-top: 20px;
+    margin-top: 2px;
     align-items: center;
 }
 
@@ -179,7 +183,6 @@ iframe {
 	color: #000000;
 	border: 1px solid #C4D1EB;
 	border-radius: 20px;
-	box-shadow: 3px 3px 2px 0px #E2E2E2;
 	transition: .3s ease;
 }
 
@@ -258,12 +261,12 @@ iframe {
     padding: 12px 15px;
 }
 
-.tabela tbody tr:nth-child(even) {
-    background-color: #f2f2f2; 
-}
-
 .tabela td {
     padding: 12px 15px;
+    color: #ebaf17;
+}
+
+label {
     color: #ebaf17;
 }
 
@@ -271,14 +274,19 @@ iframe {
   width: 30px;
 }
 
-.buttonEdit {
-    border-radius: 50px;
-}
-
+.buttonEdit,
 .buttonDelete {
-    border: none;
+    background-color: transparent; 
+    border: none; 
+    cursor: pointer; 
 }
 
+.buttonEdit img,
+.buttonDelete img {
+    width: 40px; 
+    height: auto; 
+    border-radius: 0; 
+}
 
 ::-webkit-scrollbar {
     width: 3px;

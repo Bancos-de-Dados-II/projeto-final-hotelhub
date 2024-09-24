@@ -37,13 +37,9 @@ button.addEventListener('click', () => {
     const lat = marker.getLatLng().lat;
     const lng = marker.getLatLng().lng;
 
-    console.log(lat);
-    
-
     const nome = document.getElementById('nomeHotel').value;
     const cnpj = document.getElementById('cnpj').value;
     const tipo = document.getElementById('tipo').value;
-    console.log(tipo);
 
     // Validação básica dos inputs
     if (!nome || !cnpj || !tipo) {
@@ -68,15 +64,28 @@ button.addEventListener('click', () => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(hotel)
+    }).then(response => {
+        if (!response.ok) {
+            return response.json().then(errorData => {
+                // Exibe o alerta se o hotel já existir
+                if (response.status === 400 && errorData.message === 'Hotel já existe com este CNPJ.') {
+                    alert('Erro: Hotel já existe com este CNPJ.');
+                } else {
+                    alert('Erro ao registrar hotel.');
+                }
+                throw new Error(errorData.message || 'Erro desconhecido');
+            });
+        }
+
+        return response.json();
     }).then(() => {
-        console.log('Hotel registrado com sucesso!');
         alert('Hotel registrado com sucesso!');
-        listarHoteis();
+        listarHoteis(); // Função que lista os hotéis atualizados
     }).catch(error => {
         console.log('Erro ao registrar hotel:', error);
-        alert('Erro ao registrar hotel. Consulte o console para mais detalhes.');
     });
 });
+
 
 function listarHoteis() {
     fetch('http://localhost:3000/hotel')

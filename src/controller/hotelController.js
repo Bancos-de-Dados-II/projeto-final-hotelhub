@@ -4,19 +4,29 @@ import redisClient from '../db/redis.js'
 
 //DELETAR A CHAVE HOTÉIS SEMPRE QUE: ADICIONAR, ATUALIZAR E REMOVER HOTÉIS
 
-const adicionarHotel = async(req, res) => {
+const adicionarHotel = async (req, res) => {
     try {
-        await database()
-        const hotel = await Hotel.create(req.body)
+        await database();
 
+        // Verifica se o hotel já existe com base no CNPJ
+        const hotelExistente = await Hotel.findOne({ cnpj: req.body.cnpj });
+        if (hotelExistente) {
+            return res.status(400).json({ message: 'Hotel já existe com este CNPJ.' });
+        }
+
+        // Se não existir, cria o hotel
+        const hotel = await Hotel.create(req.body);
+
+        // Atualiza o cache
         const cache = await Hotel.find();
         await redisClient.set('hoteis', JSON.stringify(cache));
-        
-        res.status(201).json(hotel)
+
+        res.status(201).json(hotel);
     } catch (error) {
         res.status(400).json(error);
     }
-}
+};
+
 
 const listarHoteis = async (req, res) => {
     try {
