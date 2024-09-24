@@ -1,0 +1,181 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url(./images/bg.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Montserrat", sans-serif;
+}
+
+#nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+.navBar {
+    display: flex;
+    padding-left: 20px;
+    position: fixed;
+}
+
+#navStyle {
+    background-color: #333333;
+}
+
+.navBar a {
+    text-decoration: none;
+    color: #ebaf17;
+    transition: 300ms;
+}
+
+.navBar a:hover {
+    font-size: 20px;
+    transition: 300ms;
+}
+
+.navbar-nav {
+    display: flex;
+    flex-direction: row;
+}
+
+.nav-link {
+    margin-left: 20px;
+    font-weight: 400;
+    color: #fff;
+    transition: 300ms;
+}
+
+.nav-link:hover {
+    font-size: 18px;
+    transition: 300ms;
+}
+
+.formulario {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 20px;
+}
+
+.logo img {
+    width: 200px;
+    transition: 300ms;
+}
+
+.logo img:hover {
+    width: 220px;
+    transition: 300ms;
+}
+
+/* Input */
+.input {
+    font-size: 18px;
+    padding: 5px 10px;
+    margin-bottom: 15px;
+    width: 100%;
+    padding-left: 15px;
+    outline: none;
+    background: #FFFFFF;
+    color: #000000;
+    border: 1px solid #C4D1EB;
+    border-radius: 10px;
+    transition: 0.3s ease;
+}
+
+.input:focus {
+    background: #F2F2F2;
+    border-color: #5A7EC7;
+}
+
+.input::placeholder {
+    color: #333333;
+}
+
+label {
+    color: #ebaf17;
+    margin-bottom: 5px;
+}
+
+.btn {
+    line-height: 1;
+    text-decoration: none;
+    color: #ebaf17;
+    font-size: 18px;
+    border-radius: 5px;
+    width: 80px;
+    height: 40px;
+    border: 1px solid #ebaf17;
+    margin-top: 10px;
+    background-color: transparent;
+    transition: 300ms;
+}
+
+.btn:hover {
+    color: #ebaf17;
+    background-color: #fff3d6;
+    transition: 300ms;
+}
+
+#map {
+    height: 512px;
+    width: 512px;
+    border-radius: 20px;
+    -webkit-box-shadow: 11px 11px 50px -19px rgba(0,0,0,0.36);
+    -moz-box-shadow: 11px 11px 50px -19px rgba(0,0,0,0.36);
+    box-shadow: 11px 11px 50px -19px rgba(0,0,0,0.36);
+}
+
+::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #e1e1e1;
+    border-radius: 30px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #ffffff;
+}
+
+::-webkit-scrollbar-track {
+    background: #666666;
+}
+
+::-webkit-scrollbar-track:hover {
+    background: #666666;
+}

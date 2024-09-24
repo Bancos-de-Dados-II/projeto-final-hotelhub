@@ -44,20 +44,41 @@ buttonEditSave.addEventListener('click', () => {
 
     const nome = document.getElementById('nomeHotel').value;
     const cnpj = document.getElementById('cnpj').value;
+    const tipo = document.getElementById('tipo').value;
     const lat = marker.getLatLng().lat;
     const lng = marker.getLatLng().lng;
     const coordinates = [lng, lat];
 
+    if (!nome) {
+        alert('Por favor, preencha o nome do hotel.');
+        return;
+    }
+
+    if(tipo < 0 || tipo > 5) {
+        alert('Por favor, insira uma classificação de 1 a 5!');
+        return;
+    }
+
+    const cnpjRegex = /^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$|^\d{14}$/;
+
     const hotel = {
         nome,
-        cnpj,
+        tipo,
         "localizacao": {
             "type": "Point",
             coordinates
         }
     };
+
+    if (cnpj) {
+        if (!cnpjRegex.test(cnpj)) {
+            alert('Por favor, insira um CNPJ válido.');
+            return;
+        }
+        hotel.cnpj = cnpj;  
+    }
+
     console.log(hotel);
-    
 
     fetch(`http://localhost:3000/hotel/${_id}`, {
         method: 'PUT',
@@ -81,3 +102,4 @@ buttonEditSave.addEventListener('click', () => {
         alert('Erro ao atualizar hotel. Consulte o console para mais detalhes.');
     });
 });
+

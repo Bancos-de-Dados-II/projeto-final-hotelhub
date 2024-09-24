@@ -8,16 +8,13 @@ const adicionarHotel = async (req, res) => {
     try {
         await database();
 
-        // Verifica se o hotel já existe com base no CNPJ
         const hotelExistente = await Hotel.findOne({ cnpj: req.body.cnpj });
         if (hotelExistente) {
             return res.status(400).json({ message: 'Hotel já existe com este CNPJ.' });
         }
 
-        // Se não existir, cria o hotel
         const hotel = await Hotel.create(req.body);
 
-        // Atualiza o cache
         const cache = await Hotel.find();
         await redisClient.set('hoteis', JSON.stringify(cache));
 
@@ -122,8 +119,6 @@ const atualizarHotel = async (req, res) => {
 
         const cache = await Hotel.find();
         await redisClient.set('hoteis', JSON.stringify(cache));
-
-        //await redisClient.set(`hotel:${hotel.cnpj}`, JSON.stringify(hotel));
 
         res.status(200).json(hotel);
     } catch (error) {

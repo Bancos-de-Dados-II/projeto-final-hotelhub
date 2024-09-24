@@ -18,6 +18,10 @@
     position: fixed;
 }
 
+#navStyle {
+    background-color: #333333;
+}
+
 .navBar a {
     text-decoration: none;
     color: #ebaf17;
@@ -138,11 +142,13 @@ iframe {
 }
 
 .logo img {
-    height: 100px;
+    width: 200px;
+    transition: 300ms;
 }
 
-.logo:hover {
-    width: 120px;
+.logo img:hover {
+    width: 220px;
+    transition: 300ms;
 }
 
 .form {
@@ -207,7 +213,7 @@ iframe {
 }
 
 .input::placeholder {
-	color: #DDDDDD;
+	color: #333333;
 }
 
 .pesquisar {

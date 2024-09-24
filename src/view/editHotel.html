@@ -13,7 +13,7 @@
     crossorigin=""></script>
     <link rel="shortcut icon" href="./icons/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styleEdit.css">
 </head>
 <body>
     <main>
@@ -28,6 +28,9 @@
 
                 <label for="cnpj">CNPJ</label>
                 <input type="text" class="input" placeholder="Digite o CNPJ" id="cnpj">
+
+                <label for="tipo">Classificação</label>
+                <input type="text" class="input" min="1" max="5" placeholder="Digite o tipo do hotel" id="tipo">
 
                 <button type="button" class="btn" id="buttonEditSave">Enviar</button>
             </section>

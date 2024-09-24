@@ -8,8 +8,10 @@ let map = L.map('map', {
 let houseIcon = L.icon({
     iconUrl: 'https://cdn-icons-png.flaticon.com/512/2286/2286054.png',
     iconSize: [50, 50],
-    iconAnchor: [25, 50], 
+    iconAnchor: [25, 50],
 });
+
+let hotelMarkers = {};
 
 let marker = L.marker([-6.887698002563706, -38.56015173326553], {
     draggable: true,
@@ -17,7 +19,6 @@ let marker = L.marker([-6.887698002563706, -38.56015173326553], {
 }).addTo(map);
 
 map.locate();
-
 map.on('locationfound', e => {
     marker.setLatLng(e.latlng);
     map.setView(e.latlng);
@@ -32,6 +33,37 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
+function listarHoteis() {
+    fetch('http://localhost:3000/hotel')
+        .then(response => response.json())
+        .then(data => {
+            console.log('Dados recebidos:', data);
+            displayHoteis(data); 
+            updateMarkers(data); 
+        })
+        .catch(e => {
+            console.error('Erro ao buscar hotéis:', e);
+        });
+}
+
+function updateMarkers(hoteis) {
+    Object.keys(hotelMarkers).forEach(id => {
+        map.removeLayer(hotelMarkers[id]);
+    });
+    hotelMarkers = {}; 
+
+    hoteis.forEach(hotel => {
+        const lat = hotel.localizacao.coordinates[1];
+        const lng = hotel.localizacao.coordinates[0];
+
+        const marker = L.marker([lat, lng], { icon: houseIcon })
+            .bindPopup(`<b>${hotel.nome}</b><br>CNPJ: ${hotel.cnpj}<br>Classificação: ${hotel.tipo}`)
+            .addTo(map);
+
+        hotelMarkers[hotel._id] = marker;
+    });
+}
+
 const button = document.getElementById('button');
 button.addEventListener('click', () => {
     const lat = marker.getLatLng().lat;
@@ -41,9 +73,20 @@ button.addEventListener('click', () => {
     const cnpj = document.getElementById('cnpj').value;
     const tipo = document.getElementById('tipo').value;
 
-    // Validação básica dos inputs
     if (!nome || !cnpj || !tipo) {
         alert('Por favor, preencha todos os campos.');
+        return;
+    }
+
+    const cnpjRegex = /^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$|^\d{14}$/;
+
+    if (!cnpjRegex.test(cnpj)) {
+        alert('Por favor, insira um CNPJ válido.');
+        return;
+    }
+
+    if(tipo < 0 || tipo > 5) {
+        alert('Por favor, insira uma classificação de 1 a 5!');
         return;
     }
 
@@ -67,7 +110,6 @@ button.addEventListener('click', () => {
     }).then(response => {
         if (!response.ok) {
             return response.json().then(errorData => {
-                // Exibe o alerta se o hotel já existir
                 if (response.status === 400 && errorData.message === 'Hotel já existe com este CNPJ.') {
                     alert('Erro: Hotel já existe com este CNPJ.');
                 } else {
@@ -80,42 +122,23 @@ button.addEventListener('click', () => {
         return response.json();
     }).then(() => {
         alert('Hotel registrado com sucesso!');
-        listarHoteis(); // Função que lista os hotéis atualizados
+        listarHoteis();
     }).catch(error => {
         console.log('Erro ao registrar hotel:', error);
     });
 });
 
-
-function listarHoteis() {
-    fetch('http://localhost:3000/hotel')
-        .then(response => response.json())
-        .then(data => {
-            console.log('Dados recebidos:', data); // Verifica se os dados estão corretos
-            displayHoteis(data);
-        })
-        .catch(e => {
-            console.error('Erro ao buscar hotéis:', e);
-        });
-}
-
-function displayHoteis (hotel) {
+function displayHoteis(hotel) {
     const dados = document.getElementById('dados');
     dados.innerHTML = '';
-    console.log(hotel);
     hotel.forEach(e => {
         const tr = document.createElement('tr');
 
         const id = document.createElement('td');
-
         const nome = document.createElement('td');
-
         const cnpj = document.createElement('td');
-
         const tipo = document.createElement('td');
-
         const latitude = document.createElement('td');
-
         const longitude = document.createElement('td');
 
         const tdButtonEdit = document.createElement('td');
@@ -127,15 +150,15 @@ function displayHoteis (hotel) {
         const buttonDelete = document.createElement('button');
         const imgButtonDelete = document.createElement('img');
 
-        linkButtonEdit.href = `./editHotel.html?_id=${e._id}`
+        linkButtonEdit.href = `./editHotel.html?_id=${e._id}`;
 
         imgButtonEdit.classList.add('IconEditDele');
-        imgButtonEdit.id = 'icon-edit-hotel'
-        imgButtonEdit.src = './icons/pen.png'
+        imgButtonEdit.id = 'icon-edit-hotel';
+        imgButtonEdit.src = './icons/pen.png';
 
         imgButtonDelete.classList.add('IconEditDelete');
-        buttonDelete.id = 'icon-delete-hotel'
-        imgButtonDelete.src = './icons/delete.png'
+        buttonDelete.id = 'icon-delete-hotel';
+        imgButtonDelete.src = './icons/delete.png';
 
         id.textContent = e._id;
         nome.textContent = e.nome;
@@ -148,12 +171,10 @@ function displayHoteis (hotel) {
         buttonEdit.appendChild(linkButtonEdit);
         
         buttonDelete.appendChild(imgButtonDelete);
-
         buttonDelete.dataset._id = e._id;
-
-        buttonDelete.className = 'buttonDelete'
+        buttonDelete.className = 'buttonDelete';
         tdButtonDelete.appendChild(buttonDelete);
-        buttonEdit.className = 'buttonEdit'
+        buttonEdit.className = 'buttonEdit';
         tdButtonEdit.appendChild(buttonEdit);
 
         tr.appendChild(id);
@@ -171,15 +192,13 @@ function displayHoteis (hotel) {
 
 document.getElementById('dados').addEventListener('click', (event) => {
     const button = event.target.closest('button');
-    console.log(button);
     const _id = button.dataset._id;
-    console.log(_id);
     
     fetch(`http://localhost:3000/hotel/${_id}`, {
         method: 'DELETE'
     }).then(() => {
         listarHoteis();
-    })
+    });
 });
 
 const buttonSearch = document.getElementById('buttonPesquisar');
@@ -193,14 +212,11 @@ buttonSearch.addEventListener('click', () => {
             } else {
                 displayHoteis([data]);
             }
+            updateMarkers(data);
         })
         .catch(error => {
             console.log(error);
         });
 });
 
-
 listarHoteis();
-
-
-
