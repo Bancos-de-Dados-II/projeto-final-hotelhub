@@ -193,15 +193,5 @@ buttonSearch.addEventListener('click', () => {
 
 listarHoteis();
 
-// function handleSearch(){
-//     fetch("http://localhost:3000/product-search?search=" + searchText, {
-//       method: "GET",
-//       headers: {
-//         "authorization": `Bearer ${token}`,
-//         "Content-Type": "application/json"
-//       }
-//     })
-//     .then((res) => res.json())
-//     .then((data: []) => {setProducts([...data]); console.log(products)})
-// }
+
 
